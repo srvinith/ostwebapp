@@ -5,11 +5,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>OSTWebApp</title>
 </head>
 <body>
-    <h2 class="hometext">Login</h2>
-    <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit sunt nam possimus mollitia suscipit. Saepe mollitia quas quidem minus consequuntur?
-    </h2>
+   <div class="container-fluid">
+   <div class="home-con">
+    <div class="top-row">
+        <div class="customer-name-board">
+            <h4>Good Morning !</h4>
+            <h2>Nikhil Deepak</h2>
+        </div>
+       <div class="end-nav">
+        <div class="profile-img">
+            <img src="{% static 'images/defalut-profile.svg' %}" alt="profile-img" class="img-fluid">
+        </div>
+       </div>
+    </div>
+    <div class="center-nav">
+        <div class="main-nav">
+            <div class="">
+                <img src="{% static 'images/home-icon.svg' %}" alt="home" class="img-fluid">
+            </div>
+            <div class="">
+                <img src="{% static 'images/device-icon.svg' %}" alt="home" class="img-fluid">
+            </div>
+            <div class="">
+                <img src="{% static 'images/rooms.svg' %}" alt="home" class="img-fluid">
+            </div>
+            <div class="">
+                <img src="{% static 'images/schedule-icon.svg' %}" alt="home" class="img-fluid">
+            </div>
+            <div class="">
+                <img src="{% static 'images/scenes-icon.svg' %}" alt="home" class="img-fluid">
+            </div>
+
+            <div class="logout">
+                <img src="{% static 'images/logout-icon.svg' %}" alt="logout-icon" class="img-fluid">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-con">
+        <div class="main-device-con">
+
+            <label for="check" class="device-con offlightcon">
+              <div class="text-center py-4">
+                <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid offlight">
+                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid onlight">
+                <div class="btn-border">
+                    Admin Light 1
+                </div>
+              </div>
+            </label>
+            <div class="device-con onlightcon">
+              <div class="text-center py-4">
+                <!-- <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid offlight"> -->
+                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid ">
+                <div class="btn-border">
+                    Admin Light 2
+                </div>
+              </div>
+            </div>
+          
+           
+        </div>
+    </div>
+   </div>
+   </div>
+
+
+
+<!-- script start=== -->
+<script src="{% static ' js' %}"></script>
+   <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+   <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>
