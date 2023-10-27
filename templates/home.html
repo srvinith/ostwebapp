@@ -13,12 +13,16 @@
    <div class="home-con">
     <div class="top-row">
         <div class="customer-name-board">
-            <h4>Good Morning !</h4>
-            <h2>Nikhil Deepak</h2>
+            <h4>{{wish}}</h4>
+            <h2>{{name}}</h2>
         </div>
        <div class="end-nav">
         <div class="profile-img">
+            {%if profile == "NULL"%}
             <img src="{% static 'images/defalut-profile.svg' %}" alt="profile-img" class="img-fluid">
+            {%else%}
+            <img src="{{profile}}" alt="profile-img" class="img-fluid">
+            {%endif%}
         </div>
        </div>
     </div>
@@ -49,25 +53,29 @@
 
     <div class="bottom-con">
         <div class="main-device-con">
-
-            <label for="check" class="device-con offlightcon">
+            {%for did, name, type in alldevice%}
+            <form action="/" method="post">
+                <label for="check" class="device-con offlightcon">
+                    <div class="text-center py-4">
+                      <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid onlightcon">
+                      <!-- <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid onlightcon"> -->
+                      <div class="btn-border">
+                          {{name}}
+                      </div>
+                    </div>
+                  </label>
+            </form>
+            {%endfor%}
+            
+            <!-- <div class="device-con onlightcon">
               <div class="text-center py-4">
                 <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid offlight">
-                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid onlight">
-                <div class="btn-border">
-                    Admin Light 1
-                </div>
-              </div>
-            </label>
-            <div class="device-con onlightcon">
-              <div class="text-center py-4">
-                <!-- <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid offlight"> -->
-                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid ">
+                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid offlightcon">
                 <div class="btn-border">
                     Admin Light 2
                 </div>
               </div>
-            </div>
+            </div> -->
           
            
         </div>
