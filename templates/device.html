@@ -28,19 +28,19 @@
     </div>
     <div class="center-nav">
         <div class="main-nav">
-            <div class="nav-list nav-active">
+            <div class="">
                 <img src="{% static 'images/home-icon.svg' %}" alt="home" class="img-fluid">
             </div>
-            <div class="nav-list">
+            <div class="">
                 <img src="{% static 'images/device-icon.svg' %}" alt="home" class="img-fluid">
             </div>
-            <div class="nav-list">
+            <div class="">
                 <img src="{% static 'images/rooms.svg' %}" alt="home" class="img-fluid">
             </div>
-            <div class="nav-list">
+            <div class="">
                 <img src="{% static 'images/schedule-icon.svg' %}" alt="home" class="img-fluid">
             </div>
-            <div class="nav-list">
+            <div class="">
                 <img src="{% static 'images/scenes-icon.svg' %}" alt="home" class="img-fluid">
             </div>
 
@@ -52,16 +52,23 @@
     </div>
 
     <div class="bottom-con">
-        <div class="home-btn-con">
-            <div class="home-chage-btn">
-                <img src="{% static 'images/home-icon.svg'  %}" alt="home-icon" class="img-fluid">
-                <h2>Home</h2>
-            </div>
-            <div class="home-chage-btn">
-                <img src="{% static 'images/office-icon.svg'  %}" alt="home-icon" class="img-fluid">
-                <h2>Office</h2>
-            </div>
-            
+        <div class="main-device-con">
+            <label for="check" class="device-con offlightcon">
+                <div class="text-center py-4">
+                    <!-- <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid onlightcon"> -->
+                    <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid onlightcon">
+                    <div class="btn-border">
+                        {{name}}
+                    </div>
+                </div>
+                </label>
+                {% for homeid, homename in alldevice %}
+                <form action="/lightpage/" method="post" class="lightForm">
+                    {% csrf_token %}
+                    <button type="button" name="homeidlight" value="{{ homeid }}" class="homeidButton">{{ homeid }}</button>
+                    <span id="{{ homeid }}"></span>
+                </form>
+                {% endfor %}
         </div>
     </div>
    </div>
