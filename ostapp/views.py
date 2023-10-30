@@ -3,7 +3,7 @@ import pyrebase
 import datetime
 import pytz,requests
 from django.http import JsonResponse
-# Create your views here.
+
 config = {
   "apiKey": "AIzaSyC2psok5Y20qJvtXjiPZEDQYbGkitdwk0M",
   "authDomain": "smart-things-ab7d2.firebaseapp.com",
@@ -33,7 +33,7 @@ def login(request):
             email = request.POST["email"]
             password = request.POST["password"]
             user = auth.sign_in_with_email_and_password(email, password)
-            uid = user["localId"]  # to get the uid of the authentication
+            uid = user["localId"]
             exp = 100 * 365 * 24 * 60 * 60
             response = redirect("home")
             response.set_cookie("uid", uid, expires=exp)
@@ -64,6 +64,7 @@ def home(request):
     homenamelist=[]
     name="NULL"
     profile="NULL"
+    download_url = storage.child("rooms").child("940e1096-0648-4ece-897a-6baea171bb83").child("10h6K77BOcgG46XGIdhpWbJyUsh1").get_url(None)
     try:
         
         if homedata[uid]:
@@ -114,11 +115,11 @@ def home(request):
         if "devicechange" in request.POST:
             deviceid = request.POST["devicechange"]
             state = request.POST["state"]
-    print(homeidlist,homenamelist)
-    light_id=["3chfb001","3chfb002","3chfb003"]
-    light_state=[1,0,1]    
-    alldevice=zip(light_id,light_state)
-    # alldevice=zip(homeidlist,homenamelist)
+    # print(homeidlist,homenamelist)
+    # light_id=["3chfb001","3chfb002","3chfb003"]
+    # light_state=[1,0,1]    
+    # alldevice=zip(light_id,light_state)
+    alldevice=zip(homeidlist,homenamelist)
     context={
         "name":name,
         "wish":wish,
@@ -145,6 +146,7 @@ def lightpage(request):
     idlist=[]
     namelist=[]
     typelist=[]
+    roomwallpaper=[]
     name="NULL"
     profile="NULL"
     if request.method=="POST":
@@ -206,26 +208,26 @@ def lightpage(request):
             roomidlight=request.POST["roomidlight"]
             try:
                 if homedata[uid]:
-                    for roomid in  homedata[uid][homeidget]["rooms"]:
-                        for productid in homedata[uid][homeidget]["rooms"][roomid]["products"]:
-                                for deviceid in homedata[uid][homeidget]["rooms"][roomid]["products"][productid]["devices"]:
-                                    did=homedata[uid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
+                    # for roomid in  homedata[uid][homeidget]["rooms"]:
+                        for productid in homedata[uid][homeidget]["rooms"][roomidlight]["products"]:
+                                for deviceid in homedata[uid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"]:
+                                    did=homedata[uid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["id"]
                                     did=productid+"_"+deviceid
                                     idlist.append(did)
-                                    namelist.append(homedata[uid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
-                                    typelist.append(homedata[uid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                    namelist.append(homedata[uid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["name"])
+                                    typelist.append(homedata[uid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["type"])
 
                 if userdata[uid]:
                     for ownerid in userdata[uid]["Access"]:
-                            for roomid in userdata[uid]["Access"][ownerid][homeidget]["rooms"]:
-                                for productid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomid]["products"]:
-                                    for deviceid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomid]["products"][productid]:
+                            # for roomid in userdata[uid]["Access"][ownerid][homeidget]["rooms"]:
+                                for productid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomidlight]["products"]:
+                                    for deviceid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomidlight]["products"][productid]:
                                         try:
-                                            id=homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
+                                            id=homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["id"]
                                             did=productid+"_"+id
                                             idlist.append(did)
-                                            namelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
-                                            typelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                            namelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["name"])
+                                            typelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["type"])
                                         except:
                                             pass
                     name= userdata[uid]["name"]
@@ -233,15 +235,15 @@ def lightpage(request):
                 if userdata[uid]:
                     try:
                         for ownerid in userdata[uid]["Access"]:
-                                for roomid in userdata[uid]["Access"][ownerid][homeidget]["rooms"]:
-                                    for productid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomid]["products"]:
-                                        for deviceid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomid]["products"][productid]:
+                                # for roomid in userdata[uid]["Access"][ownerid][homeidget]["rooms"]:
+                                    for productid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomidlight]["products"]:
+                                        for deviceid in userdata[uid]["Access"][ownerid][homeidget]["rooms"][roomidlight]["products"][productid]:
                                             try:
                                                 id=homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
                                                 did=productid+"_"+id
                                                 idlist.append(did)
-                                                namelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
-                                                typelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                                namelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["name"])
+                                                typelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["type"])
                                             except:
                                                 pass
                         name= userdata[uid]["name"]
@@ -266,6 +268,10 @@ def lightpage(request):
                             idlist.append(did)
                             namelist.append(homedata[uid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                             typelist.append(homedata[uid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                            try:
+                                roomwallpaper.append(homedata[uid][homeid]["rooms"][roomid]["wallpaper"])
+                            except:
+                                roomwallpaper.append("NULL")     
      
         if userdata[uid]:
             for ownerid in userdata[uid]["Access"]:
@@ -279,6 +285,10 @@ def lightpage(request):
                                     idlist.append(did)
                                     namelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                     typelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                    try:
+                                        roomwallpaper.append(homedata[ownerid][homeid]["rooms"][roomid]["wallpaper"])
+                                    except:
+                                        roomwallpaper.append("NULL")
                                 except:
                                     pass
             name= userdata[uid]["name"]
@@ -300,6 +310,10 @@ def lightpage(request):
                                     idlist.append(did)
                                     namelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                     typelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                    try:
+                                        roomwallpaper.append(homedata[ownerid][homeid]["rooms"][roomid]["wallpaper"])
+                                    except:
+                                        roomwallpaper.append("NULL")
                                 except:
                                     pass
             name= userdata[uid]["name"]
@@ -319,6 +333,7 @@ def lightpage(request):
         # "alldevice":alldevice,
     }
     return render(request,"home.html")
+
 def roompage(request):
     uid = request.COOKIES["uid"]
     asiaTime = pytz.timezone("Asia/Kolkata")
@@ -335,6 +350,7 @@ def roompage(request):
     homedata=db.child("Homes").get().val()
     userdata=db.child("Users").get().val()
     roomlist=[]
+    roomnamelist=[]
     name="NULL"
     profile="NULL"
     try:
@@ -346,6 +362,7 @@ def roompage(request):
                     #         did=homedata[uid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
                     #         did=productid+"_"+deviceid
                             roomlist.append(roomid)
+                            roomnamelist.append(homedata[uid][homeid]["rooms"][roomid]['name'])
      
         if userdata[uid]:
             for ownerid in userdata[uid]["Access"]:
@@ -357,6 +374,7 @@ def roompage(request):
                         #             id=homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
                         #             did=productid+"_"+id
                                     roomlist.append(roomid)
+                                    roomnamelist.append()
                                     # namelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                     # typelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
                                 # except:
@@ -378,6 +396,7 @@ def roompage(request):
                                     # id=homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
                                     # did=productid+"_"+id
                                     roomlist.append(roomid)
+                                    roomnamelist.append()
                                 #     namelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                 #     typelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
                                 # except:
