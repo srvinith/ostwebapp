@@ -54,14 +54,16 @@
 
     <div class="bottom-con">
         <div class="home-btn-con">
+            {%for id,name in alldevice%}
             <div class="home-chage-btn">
                 <img src="{% static 'images/home-icon.svg'  %}" alt="home-icon" class="img-fluid">
-                <h2>Home</h2>
+                <h2>{{name}}</h2>
             </div>
-            <div class="home-chage-btn">
+            {%endfor%}
+            <!-- <div class="home-chage-btn">
                 <img src="{% static 'images/office-icon.svg'  %}" alt="home-icon" class="img-fluid">
                 <h2>Office</h2>
-            </div>
+            </div> -->
             
         </div>
     </div>

@@ -4,8 +4,7 @@ import datetime
 import pytz,requests
 from django.http import JsonResponse
 import json
-import httpx
-from asgiref.sync import async_to_sync
+
 
 config = {
   "apiKey": "AIzaSyC2psok5Y20qJvtXjiPZEDQYbGkitdwk0M",
@@ -437,7 +436,7 @@ def roompage(request):
          "allroomlist":allroomlist
     }
     return render(request,"home.html",context)
-async def get_state(request):
+def get_state(request):
     if request.method == 'POST':
         homeid = request.POST.get('homeidlight')
         parts = homeid.split('_')
@@ -448,10 +447,8 @@ async def get_state(request):
             product_id = "NULL"
             device_id = "NULL"
 
-        async with httpx.AsyncClient() as client:
             try:
-                url = f"http://192.168.1.13:8118/Get_Device_Status/{product_id}/{device_id}"
-                response = await client.get(url)
+                response =requests.get(f"http://192.168.1.13:8118/Get_Device_Status/{product_id}/{device_id}")
                 data = response.json()
             except Exception as e:
                 data = {
