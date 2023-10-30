@@ -200,9 +200,9 @@ def lightpage(request):
                 "name":name,
                 "wish":wish,
                 "profile":profile,
-                # "alldevice":alldevice,
+                "alldevice":alldevice,
             }
-            return render(request,"home.html",context)
+            return render(request,"device.html",context)
         
         if 'roomidlight' in request.POST:
             roomidlight=request.POST["roomidlight"]
@@ -254,9 +254,9 @@ def lightpage(request):
                 "name":name,
                 "wish":wish,
                 "profile":profile,
-                # "alldevice":alldevice,
+                "alldevice":alldevice,
             }
-            return render(request,"home.html",context)
+            return render(request,"device.html",context)
     try:
         if homedata[uid]:
             for homeid in homedata[uid]:
@@ -330,9 +330,9 @@ def lightpage(request):
         "name":name,
         "wish":wish,
         "profile":profile,
-        # "alldevice":alldevice,
+        "alldevice":alldevice,
     }
-    return render(request,"home.html")
+    return render(request,"device.html",context)
 
 def roompage(request):
     uid = request.COOKIES["uid"]
