@@ -294,5 +294,10 @@ body {
 .light-btn {
     display: none;
 }
-
+/* CSS class for the button with a different color when value is "true" */
+.true-color {
+    background-color: green;
+    color: white;
+  }
+  
 /* ============light Btn===== */

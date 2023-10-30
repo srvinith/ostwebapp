@@ -67,11 +67,25 @@
             </div>
           </label>
           {% for id,name,type in alldevice %}
-          <form action="/lightpage/" method="post" class="lightForm device-con">
+          <form action="/lightpage/" method="post"  class="lightForm device-con">
             {% csrf_token %}
-            <button type="button" name="homeidlight" value="{{ id }}" class="homeidButton">
+            <button type="button" name="homeidlight" value="{{ id }}" class="toggleButton" >
               {% if type == "light" %}
-              <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid ">
+              <button class="onlights">
+                <!-- light on -->
+                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid ">
+                <div class="btn-border onborder">
+                  {{name}}
+                </div>
+
+              </button>
+              <button class="offlight">
+                <img src="{% static 'images/offlight.svg' %}" alt="offlight" class="img-fluid ">
+                <div class="btn-border offborder">
+                 {{name}}
+                </div>
+              </button>
+
               {% endif %}
               {% if type == "gate" %}
               <img src="{% static 'images/armgate.svg' %}" alt="offlight" class="img-fluid ">
@@ -80,7 +94,7 @@
                 {{name}}
               </div>
             </button>
-            <span id="{{ id }}">m nf</span>
+            <span id="{{ id }}" class="id-value">m nf</span>
           </form>
           {% endfor %}
 
@@ -146,6 +160,12 @@
     </div>
   </div>
   
+
+  <!-- <button class="toggleButton" data-value="false">Toggle Value 1</button>
+  <button class="toggleButton" data-value="false">Toggle Value 2</button>
+  <button class="toggleButton" data-value="false">Toggle Value 3</button> -->
+  
+
 
   <!-- script start=== -->
   <script src="{% static 'js/ui.js' %}"></script>
