@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <title>OSTWebApp</title>
 </head>
@@ -17,7 +18,7 @@
             <h2>{{name}}</h2>
         </div>
        <div class="end-nav">
-        <div class="profile-img">
+        <div class="profile-img" onclick="navshow()">
             {%if profile == "NULL"%}
             <img src="{% static 'images/defalut-profile.svg' %}" alt="profile-img" class="img-fluid">
             {%else%}
@@ -26,12 +27,12 @@
         </div>
        </div>
     </div>
-    <div class="center-nav">
+    <div class="center-nav" id="centernav">
         <div class="main-nav">
-            <div class="nav-list nav-active">
+            <div class="nav-list nav-active" onclick="location.href='/'">
                 <img src="{% static 'images/home-icon.svg' %}" alt="home" class="img-fluid">
             </div>
-            <div class="nav-list">
+            <div class="nav-list" onclick="location.href='/lightpage'">
                 <img src="{% static 'images/device-icon.svg' %}" alt="home" class="img-fluid">
             </div>
             <div class="nav-list">
@@ -64,11 +65,11 @@
             
         </div>
     </div>
-   </div>
+   </div> 
    </div>
 
 <!-- script start=== -->
-<script src="{% static ' js' %}"></script>
+<script src="{% static 'js/ui.js' %}"></script>
    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
    <script src="{% static 'js/bootstrap.min.js' %}"></script>
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

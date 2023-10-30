@@ -77,26 +77,33 @@ body {
     align-items: center;
     justify-content: space-around;
 }
-.home-chage-btn h2{
+
+.home-chage-btn h2 {
     font-weight: 700;
 }
-.home-chage-btn img{
+
+.home-chage-btn img {
     width: 60px;
 }
-.nav-list{
+
+.nav-list {
     border-radius: 5px;
     padding: 3px;
 }
-.nav-list img{
-    width: 60px;
+
+.nav-list img {
+    width: 60px !important;
 }
-.nav-list:hover{
+
+.nav-list:hover {
     background-color: #6E6E6E;
     cursor: pointer;
 }
-.nav-active{
+
+.nav-active {
     background-color: #6E6E6E;
 }
+
 /* ============home page========= */
 .home-con {
     position: relative;
@@ -161,7 +168,7 @@ body {
 
 .center-nav {
     position: absolute;
-    top: 4%;
+    top: 2%;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -170,7 +177,7 @@ body {
 .bottom-con {
     background-color: #fff;
     border-radius: 10px;
-    height: 80vh;
+    height: auto;
 
 }
 
@@ -189,15 +196,24 @@ body {
     height: 150px;
     border-radius: 5px;
     display: flex;
-    /* align-items: center;
-    justify-content: center; */
     flex-direction: column;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     overflow: hidden;
+    margin: 10px;
+    position: relative;
+}
+
+.device-con button {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    /* background-color: #D9D9D9; */
+
 }
 
 .offlightcon {
-    background: #D9D9D9;
+    /* background: #D9D9D9; */
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -207,7 +223,7 @@ body {
 
 .btn-border {
     width: 100%;
-    height: 30px;
+    height: auto;
     background-color: #fff;
     font-size: 20px;
     font-weight: 600;
@@ -218,3 +234,65 @@ body {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
 }
+
+.offborder {
+    background-color: #6E6E6E;
+    color: #fff;
+}
+
+.offlight {
+    background-color: #D9D9D9;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.onlights {
+    background-color: #6E6E6E;
+    width: 100%;
+    height: 100%;
+    /* display: none; */
+}
+
+.connectionerror {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    display: none;
+}
+
+.fan-controller {
+    position: absolute;
+    /* top: 3px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px 10px;
+}
+
+.fan-controller button {
+    width: 20px;
+    font-size: 33px;
+    font-weight: 700;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #fff;
+}
+
+.speedboard {
+    background-color: #D9D9D9;
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    padding: 0px 10px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.light-btn {
+    display: none;
+}
+
+/* ============light Btn===== */
