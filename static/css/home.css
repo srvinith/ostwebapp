@@ -92,6 +92,7 @@ body {
 }
 .nav-list:hover{
     background-color: #6E6E6E;
+    cursor: pointer;
 }
 .nav-active{
     background-color: #6E6E6E;
