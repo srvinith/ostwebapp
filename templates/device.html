@@ -65,8 +65,8 @@
                 {% for id,name,type in alldevice %}
                 <form action="/lightpage/" method="post" class="lightForm">
                     {% csrf_token %}
-                    <button type="button" name="homeidlight" value="{{ id }}" class="homeidButton">{{ name }}-{{type}}</button>
-                    <span id="{{ homeid }}"></span>
+                    <button type="button" name="homeidlight" value="{{id}}" class="homeidButton">{{ name }}-{{type}}</button>
+                    <span id="{{id}}"></span>
                 </form>
                 {% endfor %}
         </div>
@@ -110,31 +110,29 @@
    </script> -->
    <script>
     $(document).ready(function () {
-        function submitForm(homeid) {
-            var formData = {
-                'homeidlight': homeid,
-                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-            };
+    function submitForm(homeid) {
+        var formData = {
+            'homeidlight': homeid,
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        };
 
-            $.ajax({
-                type: 'POST',
-                url: '/get_state/',
-                data: formData,
-                success: function (data) {
-                    for (var i = 0; i < data.light_id.length; i++) {
-                        console.log(data.light_id[i],data.light_state[i])
-                        $('#light_' + data.light_id[i]).text(data.light_state[i]);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log('Error:', error);
-                }
-            });
-        }
-        $('.homeidButton').each(function () {
-            var homeid = $(this).val();
-            setInterval(function () {
-                submitForm(homeid);
+        $.ajax({
+            type: 'POST',
+            url: '/get_state/',
+            data: formData,
+            success: function (data) {
+                document.getElementById(data.light_id).innerText = data.light_state;
+            },
+            error: function (xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    }
+
+    $('.homeidButton').each(function () {
+        var homeid = $(this).val();
+        setInterval(function () {
+            submitForm(homeid);
             }, 1000);
         });
     });

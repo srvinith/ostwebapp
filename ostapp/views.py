@@ -3,6 +3,9 @@ import pyrebase
 import datetime
 import pytz,requests
 from django.http import JsonResponse
+import json
+import httpx
+from asgiref.sync import async_to_sync
 
 config = {
   "apiKey": "AIzaSyC2psok5Y20qJvtXjiPZEDQYbGkitdwk0M",
@@ -64,7 +67,7 @@ def home(request):
     homenamelist=[]
     name="NULL"
     profile="NULL"
-    download_url = storage.child("rooms").child("940e1096-0648-4ece-897a-6baea171bb83").child("10h6K77BOcgG46XGIdhpWbJyUsh1").get_url(None)
+
     try:
         
         if homedata[uid]:
@@ -115,10 +118,7 @@ def home(request):
         if "devicechange" in request.POST:
             deviceid = request.POST["devicechange"]
             state = request.POST["state"]
-    # print(homeidlist,homenamelist)
-    # light_id=["3chfb001","3chfb002","3chfb003"]
-    # light_state=[1,0,1]    
-    # alldevice=zip(light_id,light_state)
+    print(homeidlist,homenamelist)
     alldevice=zip(homeidlist,homenamelist)
     context={
         "name":name,
@@ -162,6 +162,10 @@ def lightpage(request):
                                     idlist.append(did)
                                     namelist.append(homedata[uid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                     typelist.append(homedata[uid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                    try:
+                                        roomwallpaper.append(homedata[uid][homeidget]["rooms"][roomid]['wallpaper'])
+                                    except:
+                                        roomwallpaper.append("NULL")   
 
                 if userdata[uid]:
                     for ownerid in userdata[uid]["Access"]:
@@ -174,6 +178,10 @@ def lightpage(request):
                                             idlist.append(did)
                                             namelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                             typelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                            try:
+                                                roomwallpaper.append(homedata[ownerid][homeidget]["rooms"][roomid]['wallpaper'])
+                                            except:
+                                                roomwallpaper.append("NULL")     
                                         except:
                                             pass
                     name= userdata[uid]["name"]
@@ -190,6 +198,10 @@ def lightpage(request):
                                                 idlist.append(did)
                                                 namelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                                 typelist.append(homedata[ownerid][homeidget]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
+                                                try:
+                                                    roomwallpaper.append(homedata[ownerid][homeidget]["rooms"][roomid]['wallpaper'])
+                                                except:
+                                                    roomwallpaper.append("NULL")
                                             except:
                                                 pass
                         name= userdata[uid]["name"]
@@ -216,6 +228,10 @@ def lightpage(request):
                                     idlist.append(did)
                                     namelist.append(homedata[uid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["name"])
                                     typelist.append(homedata[uid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["type"])
+                                    try:
+                                        roomwallpaper.append(homedata[uid][homeidget]["rooms"][roomidlight]['wallpaper'])
+                                    except:
+                                        roomwallpaper.append("NULL")    
 
                 if userdata[uid]:
                     for ownerid in userdata[uid]["Access"]:
@@ -228,6 +244,10 @@ def lightpage(request):
                                             idlist.append(did)
                                             namelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["name"])
                                             typelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["type"])
+                                            try:
+                                                roomwallpaper.append(homedata[ownerid][homeidget]["rooms"][roomidlight]['wallpaper'])
+                                            except:
+                                                roomwallpaper.append("NULL")     
                                         except:
                                             pass
                     name= userdata[uid]["name"]
@@ -244,6 +264,10 @@ def lightpage(request):
                                                 idlist.append(did)
                                                 namelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["name"])
                                                 typelist.append(homedata[ownerid][homeidget]["rooms"][roomidlight]["products"][productid]["devices"][deviceid]["type"])
+                                                try:
+                                                    roomwallpaper.append(homedata[ownerid][homeidget]["rooms"][roomidlight]['wallpaper'])
+                                                except:
+                                                    roomwallpaper.append("NULL")  
                                             except:
                                                 pass
                         name= userdata[uid]["name"]
@@ -321,10 +345,9 @@ def lightpage(request):
                 profile= userdata[uid]["photoUrl"]
             except:
                 pass                      
-    # if request.method=="POST":
-    #     if "devicechange" in request.POST:
-    #         deviceid = request.POST["devicechange"]
-    #         state = request.POST["state"]
+    # light_id=["3chfb001","3chfb002","3chfb003"]
+    # light_state=[1,0,1]    
+    # alldevice=zip(light_id,light_state)
     alldevice=zip(idlist,namelist,typelist)
     context={
         "name":name,
@@ -374,7 +397,7 @@ def roompage(request):
                         #             id=homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
                         #             did=productid+"_"+id
                                     roomlist.append(roomid)
-                                    roomnamelist.append()
+                                    roomnamelist.append(homedata[ownerid][homeid]["rooms"][roomid]['name'])
                                     # namelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                     # typelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
                                 # except:
@@ -396,7 +419,7 @@ def roompage(request):
                                     # id=homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["id"]
                                     # did=productid+"_"+id
                                     roomlist.append(roomid)
-                                    roomnamelist.append()
+                                    roomnamelist.append(homedata[ownerid][homeid]["rooms"][roomid]['name'])
                                 #     namelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["name"])
                                 #     typelist.append(homedata[ownerid][homeid]["rooms"][roomid]["products"][productid]["devices"][deviceid]["type"])
                                 # except:
@@ -406,28 +429,53 @@ def roompage(request):
                 profile= userdata[uid]["photoUrl"]
             except:
                 pass
-    print(name,profile,roomlist)
-    return render(request,"home.html")
-def get_state(request):
-    # print(request.method)
+    allroomlist=zip(roomlist,roomnamelist)        
+    context={
+         "name":name,
+         "wish":wish,
+         "profile":profile,
+         "allroomlist":allroomlist
+    }
+    return render(request,"home.html",context)
+async def get_state(request):
     if request.method == 'POST':
         homeid = request.POST.get('homeidlight')
+        parts = homeid.split('_')
+        if len(parts) == 2:
+            product_id = parts[0]
+            device_id = parts[1]
+        else:
+            product_id = "NULL"
+            device_id = "NULL"
 
-        # data = requests.get(url=f"http://13.126.197.225:8000/Get_Device_Status/{product_id}/{device_id}").json()
-        light_id=["3chfb001","3chfb002","3chfb003"]
-        light_state=[1,0,1]
-        light_state=[True if item == 1 else (False if item == 0 else item) for item in light_state]
-        data = {
-            "light_id":light_id,
-            "light_state":light_state
+        async with httpx.AsyncClient() as client:
+            try:
+                url = f"http://192.168.1.13:8118/Get_Device_Status/{product_id}/{device_id}"
+                response = await client.get(url)
+                data = response.json()
+            except Exception as e:
+                data = {
+                    "light_id": "None",
+                    "light_state": "None"
+                }
+
+        try:
+            data = json.loads(data[0])
+            device_value = data.get(device_id)
+            device_value = int(device_value)
+            state = True if device_value == 1 or device_value is True else False
+            data = {
+                "light_id": homeid,
+                "light_state": state
             }
-        
+        except Exception as e:
+            data = {
+                "light_id": "None",
+                "light_state": "None"
+            }
+
         return JsonResponse(data)
-    data={
-        "light_id":"None",
-        "light_state":"None"
-    }
-    return JsonResponse(data)
+    
 # def home(request):
     # uid = request.COOKIES["uid"]
     # print(uid)
