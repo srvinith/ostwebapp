@@ -53,41 +53,91 @@
 
     <div class="bottom-con">
         <div class="main-device-con">
-            {%for did, name, type in alldevice%}
-            <form action="/" method="post">
-                <label for="check" class="device-con offlightcon">
-                    <div class="text-center py-4">
-                      <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid onlightcon">
-                      <!-- <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid onlightcon"> -->
-                      <div class="btn-border">
-                          {{name}}
-                      </div>
+            <label for="check" class="device-con offlightcon">
+                <div class="text-center py-4">
+                    <!-- <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid onlightcon"> -->
+                    <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid onlightcon">
+                    <div class="btn-border">
+                        {{name}}
                     </div>
-                  </label>
-            </form>
-            {%endfor%}
-            
-            <!-- <div class="device-con onlightcon">
-              <div class="text-center py-4">
-                <img src="{% static 'images/bulb.svg' %}" alt="offlight" class="img-fluid offlight">
-                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid offlightcon">
-                <div class="btn-border">
-                    Admin Light 2
                 </div>
-              </div>
-            </div> -->
-          
-           
+                </label>
+                {% for homeid, homename in alldevice %}
+                <form action="/lightpage/" method="post" class="lightForm">
+                    {% csrf_token %}
+                    <button type="button" name="homeidlight" value="{{ homeid }}" class="homeidButton">{{ homeid }}</button>
+                    <span id="{{ homeid }}"></span>
+                </form>
+                {% endfor %}
         </div>
     </div>
    </div>
    </div>
 
-
-
 <!-- script start=== -->
 <script src="{% static ' js' %}"></script>
    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+   <!-- <script>
+    function updateState2() {
+            $.ajax({
+                url: "/get_state/",
+                type: 'GET'
+            })
+                .done(response => {
+                    const data = response
+                    light_state = data["light_state"];
+                    light_id= data["light_id"]
+                    if (light_id.length === light_state.length) {
+                        for (var i = 0; i < light_id.length; i++) {
+                            var id = light_id[i];
+                            var state = light_state[i];
+                            console.log(state)
+                            document.getElementById(id).innerText = state
+                            console.log("Light ID: " + id + ", Light State: " + state);
+                        }
+                    } else {
+                        console.log("The two lists have different lengths.");
+                    }
+                });
+        }
+    $(document).ready(function() {
+        updateState2();
+        setInterval(updateState2, 1000);
+    });
+   </script> -->
+   <script>
+    $(document).ready(function () {
+        function submitForm(homeid) {
+            var formData = {
+                'homeidlight': homeid,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/get_state/',
+                data: formData,
+                success: function (data) {
+                    for (var i = 0; i < data.light_id.length; i++) {
+                        console.log(data.light_id[i],data.light_state[i])
+                        $('#light_' + data.light_id[i]).text(data.light_state[i]);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+        $('.homeidButton').each(function () {
+            var homeid = $(this).val();
+            setInterval(function () {
+                submitForm(homeid);
+            }, 1000);
+        });
+    });
+</script>
 </body>
 </html>
