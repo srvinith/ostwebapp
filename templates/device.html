@@ -62,10 +62,10 @@
                     </div>
                 </div>
                 </label>
-                {% for homeid, homename in alldevice %}
+                {% for id,name,type in alldevice %}
                 <form action="/lightpage/" method="post" class="lightForm">
                     {% csrf_token %}
-                    <button type="button" name="homeidlight" value="{{ homeid }}" class="homeidButton">{{ homeid }}</button>
+                    <button type="button" name="homeidlight" value="{{ id }}" class="homeidButton">{{ name }}-{{type}}</button>
                     <span id="{{ homeid }}"></span>
                 </form>
                 {% endfor %}
