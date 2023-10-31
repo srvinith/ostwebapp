@@ -4,6 +4,8 @@ import datetime
 import pytz,requests
 from django.http import JsonResponse
 import json
+
+
 config = {
   "apiKey": "AIzaSyC2psok5Y20qJvtXjiPZEDQYbGkitdwk0M",
   "authDomain": "smart-things-ab7d2.firebaseapp.com",
@@ -442,30 +444,35 @@ def get_state(request):
             product_id = parts[0]
             device_id = parts[1]
         else:
-            product_id="NULL"
-            device_id="NULL"   
-        data = requests.get(url=f"http://192.168.1.13:8118/Get_Device_Status/{product_id}/{device_id}").json()
+            product_id = "NULL"
+            device_id = "NULL"
+
+            try:
+                response =requests.get(f"http://192.168.1.13:8118/Get_Device_Status/{product_id}/{device_id}")
+                data = response.json()
+            except Exception as e:
+                data = {
+                    "light_id": "None",
+                    "light_state": "None"
+                }
+
         try:
             data = json.loads(data[0])
             device_value = data.get(device_id)
             device_value = int(device_value)
-            state = True if device_value == 1 or device_value == True else False
-            # print(state,device_id)
-            # light_id=["3chfb001","3chfb002","3chfb003"]
-            # light_state=[1,0,1]
-            # light_state=[True if item == 1 else (False if item == 0 else item) for item in light_state]
+            state = True if device_value == 1 or device_value is True else False
             data = {
-                "light_id":homeid,
-                "light_state":state
-                }
-            return JsonResponse(data)
-        except:    
-           pass
-    data={
-            "light_id":"None",
-            "light_state":"None"
-        }
-    return JsonResponse(data)    
+                "light_id": homeid,
+                "light_state": state
+            }
+        except Exception as e:
+            data = {
+                "light_id": "None",
+                "light_state": "None"
+            }
+
+        return JsonResponse(data)
+    
 # def home(request):
     # uid = request.COOKIES["uid"]
     # print(uid)

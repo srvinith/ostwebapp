@@ -203,31 +203,33 @@
    </script> -->
   <script>
     $(document).ready(function () {
-      function submitForm(id) {
-        var formData = {
-          'homeidlight': id,
-          'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-        };
+        function submitForm(homeid) {
+            var formData = {
+                'homeidlight': homeid,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            };
 
-        $.ajax({
-          type: 'POST',
-          url: '/get_state/',
-          data: formData,
-          success: function (data) {
-              console.log(data.light_id, data.light_state)
-              document.getElementById(data.light_id).innerText = data.light_state
-          },
-          error: function (xhr, status, error) {
-            console.log('Error:', error);
-          }
+            $.ajax({
+                type: 'POST',
+                url: '/get_state/',
+                data: formData,
+                success: function (data) {
+                    for (var i = 0; i < data.light_id.length; i++) {
+                        console.log(data.light_id[i],data.light_state[i])
+                        $('#light_' + data.light_id[i]).text(data.light_state[i]);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+        $('.homeidButton').each(function () {
+            var homeid = $(this).val();
+            setInterval(function () {
+                submitForm(homeid);
+            }, 1000);
         });
-      }
-      $('.homeidButton').each(function () {
-        var id = $(this).val();
-        setInterval(function () {
-          submitForm(id);
-        }, 1000);
-      });
     });
   </script>
 </body>
