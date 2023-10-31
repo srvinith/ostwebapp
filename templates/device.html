@@ -69,7 +69,7 @@
           {% for id,name,type in alldevice %}
           <form action="/lightpage/" method="post"  class="lightForm device-con">
             {% csrf_token %}
-            <button type="button" name="homeidlight" value="{{ id }}" class="toggleButton" >
+            <button type="button" name="homeidlight" value="{{ id }}" class="homeidButton" >
               {% if type == "light" %}
               <button class="onlights">
                 <!-- light on -->
@@ -98,63 +98,7 @@
           </form>
           {% endfor %}
 
-          <form action="" class="device-con">
-            <div class="connectionerror">
-              <img src="{% static 'images/error.svg' %}" alt="error" class="img-fluid">
-            </div>
-
-            <div class="light-btn">
-
-              <!-- type light -->
-              <button class="onlights">
-                <!-- light on -->
-                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid ">
-                <div class="btn-border onborder">
-                  Light On
-                </div>
-
-              </button>
-              <!-- light off -->
-              <button class="offlight">
-                <img src="{% static 'images/offlight.svg' %}" alt="offlight" class="img-fluid ">
-                <div class="btn-border offborder">
-                  Light Off
-                </div>
-              </button>
-              <!-- light off btn above -->
-
-            </div>
-
-
-            <!-- type fan -->
-
-            <!-- fan on -->
-            <div class="fan-controller">
-              <button>-</button>
-              <button>+</button>
-            </div>
-            <button class="onlights">
-              <img src="{% static 'images/fanon.svg' %}" alt="offlight" class="img-fluid ">
-              <div class="btn-border onborder">
-                Fan On
-              </div>
-            </button>
-            <div class="speedboard">
-              <span>Speed 5</span>
-            </div>
-            <!-- fan off -->
-            <button class="offlight">
-              <img src="{% static 'images/fanoff.svg' %}" alt="offlight" class="img-fluid ">
-              <div class="btn-border offborder">
-                Fan Off
-              </div>
-            </button>
-            <!-- light off btn above -->
-
-
-            <div class="fan-btn"></div>
-
-          </form>
+          
         </div>
       </div>
     </div>
@@ -226,10 +170,100 @@
         var id = $(this).val();
         setInterval(function () {
           submitForm(id);
-        }, 1000);
+        }, 2000);
       });
     });
   </script>
 </body>
 
 </html>
+
+<!--
+  <form action="" class="device-con">
+            <div class="connectionerror">
+              <img src="{% static 'images/error.svg' %}" alt="error" class="img-fluid">
+            </div>
+
+            <div class="light-btn">
+
+           
+              <button class="onlights">
+              
+                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid ">
+                <div class="btn-border onborder">
+                  Light On
+                </div>
+
+              </button>
+              
+              <button class="offlight">
+                <img src="{% static 'images/offlight.svg' %}" alt="offlight" class="img-fluid ">
+                <div class="btn-border offborder">
+                  Light Off
+                </div>
+              </button>
+              
+
+            </div>
+
+
+           
+            <div class="fan-controller">
+              <button>-</button>
+              <button>+</button>
+            </div>
+            <button class="onlights">
+              <img src="{% static 'images/fanon.svg' %}" alt="offlight" class="img-fluid ">
+              <div class="btn-border onborder">
+                Fan On
+              </div>
+            </button>
+            <div class="speedboard">
+              <span>Speed 5</span>
+            </div>
+           
+            <button class="offlight">
+              <img src="{% static 'images/fanoff.svg' %}" alt="offlight" class="img-fluid ">
+              <div class="btn-border offborder">
+                Fan Off
+              </div>
+            </button>
+        
+
+
+            <div class="fan-btn"></div>
+
+          </form>
+
+     {% for id,name,type in alldevice %}
+          <form action="/lightpage/" method="post"  class="lightForm device-con">
+            {% csrf_token %}
+            <button type="button" name="homeidlight" value="{{ id }}" class="toggleButton" >
+              {% if type == "light" %}
+              <button class="onlights">
+                
+                <img src="{% static 'images/onlight.svg' %}" alt="offlight" class="img-fluid ">
+                <div class="btn-border onborder">
+                  {{name}}
+                </div>
+
+              </button>
+              <button class="offlight">
+                <img src="{% static 'images/offlight.svg' %}" alt="offlight" class="img-fluid ">
+                <div class="btn-border offborder">
+                 {{name}}
+                </div>
+              </button>
+
+              {% endif %}
+              {% if type == "gate" %}
+              <img src="{% static 'images/armgate.svg' %}" alt="offlight" class="img-fluid ">
+              {% endif %}
+              <div class="btn-border">
+                {{name}}
+              </div>
+            </button>
+            <span id="{{ id }}" class="id-value">m nf</span>
+          </form>
+          {% endfor %}
+ -->

@@ -444,7 +444,7 @@ def get_state(request):
         else:
             product_id="NULL"
             device_id="NULL"   
-        data = requests.get(url=f"http://192.168.1.13:8118/Get_Device_Status/{product_id}/{device_id}").json()
+        data = requests.get(url=f"http://192.168.1.13:8182/Get_Device_Status/{product_id}/{device_id}").json()
         try:
             data = json.loads(data[0])
             device_value = data.get(device_id)
