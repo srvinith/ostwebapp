@@ -214,10 +214,8 @@
                 url: '/get_state/',
                 data: formData,
                 success: function (data) {
-                    for (var i = 0; i < data.light_id.length; i++) {
-                        console.log(data.light_id[i],data.light_state[i])
-                        $('#light_' + data.light_id[i]).text(data.light_state[i]);
-                    }
+                      console.log(data.light_id[i],data.light_state[i])
+                      document.getElementById(data.light_id[i]).innerText = data.light_state[i];
                 },
                 error: function (xhr, status, error) {
                     console.log('Error:', error);
