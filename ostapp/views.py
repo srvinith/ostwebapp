@@ -444,18 +444,9 @@ def get_state(request):
             product_id = parts[0]
             device_id = parts[1]
         else:
-            product_id = "NULL"
-            device_id = "NULL"
-
-            try:
-                response =requests.get(f"http://192.168.1.13:8118/Get_Device_Status/{product_id}/{device_id}")
-                data = response.json()
-            except Exception as e:
-                data = {
-                    "light_id": "None",
-                    "light_state": "None"
-                }
-
+            product_id="NULL"
+            device_id="NULL"   
+        data = requests.get(url=f"http://192.168.1.13:8182/Get_Device_Status/{product_id}/{device_id}").json()
         try:
             data = json.loads(data[0])
             device_value = data.get(device_id)
@@ -472,7 +463,38 @@ def get_state(request):
             }
 
         return JsonResponse(data)
-    
+def change_state(request):
+    print("==============================")
+    if request.method == 'POST':
+        homeid = request.POST.get('homeidlight')
+        parts = homeid.split('_')
+        if len(parts) == 2:
+            product_id = parts[0]
+            device_id = parts[1]
+        else:
+            product_id="NULL"
+            device_id="NULL"  
+        print(product_id,device_id)     
+        data = requests.get(url=f"http://192.168.1.13:8182/Get_Device_Status/{product_id}/{device_id}").json()
+        try:
+            data = json.loads(data[0])
+            device_value = data.get(device_id)
+            device_value = int(device_value)
+            state = 0 if device_value == 1 or device_value is True else 1
+            print("current state",state)
+            data = requests.post(url=f"http://192.168.1.13:8182/Change_device_status/{product_id}/{device_id}/{state}").json()
+            state = True if device_value == 1 or device_value is True else False
+            data = {
+                "light_id": homeid,
+                "light_state": state
+            }
+        except Exception as e:
+            data = {
+                "light_id": "None",
+                "light_state": "None"
+            }
+
+        return JsonResponse(data)  
 # def home(request):
     # uid = request.COOKIES["uid"]
     # print(uid)

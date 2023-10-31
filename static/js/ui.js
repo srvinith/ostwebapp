@@ -12,24 +12,29 @@ function navshow() {
 
 // Get references to the buttons
 const toggleButtons = document.querySelectorAll('.toggleButton');
-// const onlights = document.querySelector('.onlights');
-// const offlights = document.querySelector('.offlights');
+
 
 // Add click event listeners to each button
 toggleButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    const currentValue = button.getAttribute('value');
-    
-    // Toggle the value for the clicked button
-    button.setAttribute('value', currentValue === 'true' ? 'false' : 'true');
+    button.addEventListener('click', function () {
+        const currentValue = button.getAttribute('value');
+        const onlights = document.querySelector('.onlights');
+        const offlights = document.querySelector('.offlights');
 
-    // Update the view based on the value
-    if (currentValue === 'true') {
-      button.classList.remove('true-color');
-   
-    } else {
-      button.classList.add('true-color');
-      
-    }
-  });
+        // Toggle the value for the clicked button
+        button.setAttribute('value', currentValue === 'true' ? 'false' : 'true');
+
+        // Update the view based on the value
+        if (currentValue === 'true') {
+            button.classList.remove('true-color');
+            onlights.style.display='block'
+            offlights.style.display='none'
+
+        } else {
+            button.classList.add('true-color');
+            onlights.style.display='none'
+            offlights.style.display='block'
+
+        }
+    });
 });
