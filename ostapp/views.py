@@ -212,6 +212,7 @@ def lightpage(request):
                 "wish":wish,
                 "profile":profile,
                 "alldevice":alldevice,
+                "current_device":homeidget
             }
             return render(request,"device.html",context)
         
@@ -278,6 +279,7 @@ def lightpage(request):
                 "wish":wish,
                 "profile":profile,
                 "alldevice":alldevice,
+                "current_device":roomidlight
             }
             return render(request,"device.html",context)
     try:
@@ -482,7 +484,7 @@ def change_state(request):
             device_value = int(device_value)
             state = 0 if device_value == 1 or device_value is True else 1
             print("current state",state)
-            data = requests.post(url=f"http://192.168.1.13:8182/Change_device_status/{product_id}/{device_id}/{state}").json()
+            # data = requests.post(url=f"http://192.168.1.13:8182/Change_device_status/{product_id}/{device_id}/{state}").json()
             state = True if device_value == 1 or device_value is True else False
             data = {
                 "light_id": homeid,

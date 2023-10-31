@@ -137,9 +137,9 @@
    </script> -->
   <script>
     $(document).ready(function () {
-        function submitForm(homeid) {
+        function submitForm(id) {
             var formData = {
-                'homeidlight': homeid,
+                'homeidlight': id,
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
             };
 
